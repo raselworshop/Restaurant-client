@@ -1,9 +1,10 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
     const links = <>
-    <li><a>Item 1</a></li>
-    <li><a>Item 3</a></li>
+    <li><NavLink to={'/'}>Home</NavLink></li>
+    <li><NavLink to={'/menu'}>Menu</NavLink></li>
     </>
     return (
         <>
