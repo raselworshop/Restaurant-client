@@ -1,0 +1,6 @@
+.featured-item{
+    background-image: url('../../../assets/home/featured.jpg');
+    -o-object-fit: fill;
+    object-fit: cover;
+    
+}

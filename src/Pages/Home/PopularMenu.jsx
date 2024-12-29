@@ -21,6 +21,7 @@ const PopularMenu = () => {
                 {menus.map(menu=> <MenuItem key={menu._id} menu={menu}>
                 </MenuItem>)}
             </div>
+            <button className='btn border-b-4 border-b-black md:mt-12 lg:mt-16'>View Full Menu</button>
         </section>
     );
 };
