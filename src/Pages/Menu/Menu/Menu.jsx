@@ -32,25 +32,25 @@ const Menu = () => {
             <CategoryMenu items={offered}></CategoryMenu>
             {/* dessert menu items */}
             <CategoryMenu items={dessert}
-                title={'DESSERTS'} 
+                title={'dessert'} 
                 coverImg={dessertImg}
                 description={"Proactively coordinate long-term high-impact catalysts for change and enabled infrastructures. Competently envisioneer future-proof leadership skills for backward-compatible."}
             ></CategoryMenu>
             {/* pizza menu items */}
             <CategoryMenu items={pizza}
-                title={'Pizza'} 
+                title={'pizza'} 
                 coverImg={pizzaImg}
                 description={"Continually foster B2B imperatives through progressive manufactured products. Dramatically target multidisciplinary channels whereas installed base mindshare."}
             ></CategoryMenu>
             {/* salads menu items */}
             <CategoryMenu items={salad}
-                title={'salads'} 
+                title={'salad'} 
                 coverImg={saladImg}
                 description={"Uniquely cultivate standards compliant catalysts for change whereas multimedia based mindshare. Enthusiastically implement high standards in value."}
             ></CategoryMenu>
             {/* soups menu items */}
             <CategoryMenu items={soup}
-                title={'salads'} 
+                title={'soup'} 
                 coverImg={soupImg}
                 description={"Quality platforms. Globally develop go forward customer service after seamless niche markets."}
             ></CategoryMenu>

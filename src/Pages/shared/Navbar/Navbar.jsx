@@ -5,6 +5,7 @@ const Navbar = () => {
     const links = <>
     <li><NavLink to={'/'}>Home</NavLink></li>
     <li><NavLink to={'/menu'}>Menu</NavLink></li>
+    <li><NavLink to={`/order/${'salad'}`}>Order</NavLink></li>
     </>
     return (
         <>
