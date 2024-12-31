@@ -1,12 +1,43 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
+    const { user, userSignOut } = useAuth();
+    const handleSignOUt =()=>{
+        userSignOut()
+        .then(()=>{
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your successfully logged out",
+                showConfirmButton: false,
+                timer: 1500
+              });
+        })
+        .catch(error=>{
+            console.log("log out error", error)
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: `${error.message}`,
+                showConfirmButton: false,
+                timer: 1500
+              });
+        })
+    }
     const links = <>
-    <li><NavLink to={'/'}>Home</NavLink></li>
-    <li><NavLink to={'/menu'}>Menu</NavLink></li>
-    <li><NavLink to={`/order/${'salad'}`}>Order</NavLink></li>
-    <li><NavLink to={'/signin'}>Signin</NavLink></li>
+        <li><NavLink className={'btn btn-ghost'} to={'/'}>Home</NavLink></li>
+        <li><NavLink className={'btn btn-ghost'} to={'/menu'}>Menu</NavLink></li>
+        <li><NavLink className={'btn btn-ghost'} to={'/secret'}>Secret</NavLink></li>
+        <li><NavLink className={'btn btn-ghost'} to={`/order/${'salad'}`}>Order</NavLink></li>
+        {user ? <>
+            <button onClick={handleSignOUt} className="btn btn-ghost">Sign Out</button>
+        </> : <>
+            <li><NavLink className={'btn btn-ghost'} to={'/signin'}>Signin</NavLink></li>
+            <li><NavLink className={'btn btn-ghost'} to={'/signup'}>Signup</NavLink></li>
+        </>}
     </>
     return (
         <>
@@ -30,7 +61,7 @@ const Navbar = () => {
                         <ul
                             tabIndex={0}
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                           {links} 
+                            {links}
                         </ul>
                     </div>
                     <a className="btn btn-ghost text-xl">BISTRO_BOSS</a>

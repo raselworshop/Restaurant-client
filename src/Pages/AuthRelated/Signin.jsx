@@ -1,11 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import useAuth from '../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const Signin = () => {
     const captchaRef = useRef(null);
     const [disabled, setDisabled] = useState(true);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { signinuser } = useAuth();
+
+    const from = location.state?.from?.pathname || "/";
+
     useEffect(() => {
         loadCaptchaEnginge(6);
     }, [])
@@ -16,13 +24,39 @@ const Signin = () => {
         const email = form.email.value;
         const password = form.password.value;
         console.table(email, password)
+        try {
+            signinuser(email, password)
+                .then(result => {
+                    const user = result.user;
+                    console.log(user)
+                    if (user) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Successfully logged in",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        navigate(from, {replace: true})
+                    }
+                })
+        } catch (error) {
+            console.log("Login Filed, Please try again!", error)
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: `${error.message}`,
+                showConfirmButton: false,
+                timer: 1500
+              });
+        }
     }
 
     const handleValidateCaptcha = () => {
         const captchhaValue = captchaRef.current.value;
         if (validateCaptcha(captchhaValue)) {
             setDisabled(false)
-        }else{
+        } else {
             setDisabled(true)
         }
         console.log(captchhaValue)
