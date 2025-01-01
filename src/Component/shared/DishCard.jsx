@@ -3,23 +3,25 @@ import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import useCart from '../../hooks/useCart';
 
 const DishCard = ({ item }) => {
     const { user } = useAuth();
     const { name, image, recipe, price, _id } = item;
     const navigate = useNavigate();
     const location = useLocation();
-    const secureAxios = useAxiosSecure()
+    const secureAxios = useAxiosSecure();
+    const [cart, refetch] = useCart()
 
-    const handleAddToCart = async (food) => {
+    const handleAddToCart = async () => {
         if (user && user?.email) {
-            // TODO: send cart item to db with user info 
+            // send cart item to db with user info 
             const cartItem = {
                 menuId: _id,
                 email: user.email,
-                name: food.name, 
-                image: food.image,
-                price: food.price,
+                name, 
+                image,
+                price
             }
             try {
                 const res = await secureAxios.post(`/carts`, cartItem)
@@ -31,6 +33,7 @@ const DishCard = ({ item }) => {
                         showConfirmButton: false,
                         timer: 2500
                     });
+                    refetch();
                 }
 
             } catch (error) {
@@ -75,7 +78,7 @@ const DishCard = ({ item }) => {
                 <p>{recipe}</p>
                 <div className="card-actions">
                     <button
-                        onClick={() => handleAddToCart(item)}
+                        onClick={ handleAddToCart}
                         className="btn btn-sm hover:bg-black bg-gray-200 border-b-4
                     border-b-yellow-500 text-yellow-500"
                     >Add To Cart</button>
