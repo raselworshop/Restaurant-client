@@ -2,36 +2,46 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import Swal from 'sweetalert2';
+import { FaShoppingCart } from 'react-icons/fa';
+import useCart from '../../../hooks/useCart';
 
 const Navbar = () => {
     const { user, userSignOut } = useAuth();
-    const handleSignOUt =()=>{
+    const [cart] = useCart();
+
+    const handleSignOUt = () => {
         userSignOut()
-        .then(()=>{
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Your successfully logged out",
-                showConfirmButton: false,
-                timer: 1500
-              });
-        })
-        .catch(error=>{
-            console.log("log out error", error)
-            Swal.fire({
-                position: "top-end",
-                icon: "error",
-                title: `${error.message}`,
-                showConfirmButton: false,
-                timer: 1500
-              });
-        })
+            .then(() => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your successfully logged out",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+            .catch(error => {
+                console.log("log out error", error)
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: `${error.message}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
     }
     const links = <>
         <li><NavLink className={'btn btn-ghost'} to={'/'}>Home</NavLink></li>
         <li><NavLink className={'btn btn-ghost'} to={'/menu'}>Menu</NavLink></li>
         <li><NavLink className={'btn btn-ghost'} to={'/secret'}>Secret</NavLink></li>
         <li><NavLink className={'btn btn-ghost'} to={`/order/${'salad'}`}>Order</NavLink></li>
+        <li><NavLink>
+            <button className="btn">
+                <FaShoppingCart/>
+                <div className="badge badge-secondary">+{cart.length}</div>
+            </button>
+        </NavLink></li>
         {user ? <>
             <button onClick={handleSignOUt} className="btn btn-ghost">Sign Out</button>
         </> : <>

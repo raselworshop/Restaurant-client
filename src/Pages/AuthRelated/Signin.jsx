@@ -13,6 +13,7 @@ const Signin = () => {
     const { signinuser } = useAuth();
 
     const from = location.state?.from?.pathname || "/";
+    console.log('from login page state', location.state)
 
     useEffect(() => {
         loadCaptchaEnginge(6);
@@ -57,7 +58,8 @@ const Signin = () => {
         if (validateCaptcha(captchhaValue)) {
             setDisabled(false)
         } else {
-            setDisabled(true)
+            // need to do true
+            setDisabled(false)
         }
         console.log(captchhaValue)
     }
