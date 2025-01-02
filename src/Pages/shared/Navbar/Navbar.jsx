@@ -36,7 +36,7 @@ const Navbar = () => {
         <li><NavLink className={'btn btn-ghost'} to={'/menu'}>Menu</NavLink></li>
         <li><NavLink className={'btn btn-ghost'} to={'/secret'}>Secret</NavLink></li>
         <li><NavLink className={'btn btn-ghost'} to={`/order/${'salad'}`}>Order</NavLink></li>
-        <li><NavLink>
+        <li><NavLink to={'/dashboard/cart'}>
             <button className="btn">
                 <FaShoppingCart/>
                 <div className="badge badge-secondary">+{cart.length}</div>

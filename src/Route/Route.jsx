@@ -8,6 +8,8 @@ import Signin from '../Pages/AuthRelated/Signin';
 import Signup from '../Pages/AuthRelated/Signup';
 import PrivateRoute from './PrivateRoute';
 import Secret from '../Component/common/Secret/Secret';
+import Dashboard from '../Layout/Dashboard';
+import Cart from '../Pages/Dashboard/Cart/Cart';
 
 const route = createBrowserRouter([
   {
@@ -31,6 +33,16 @@ const route = createBrowserRouter([
         element: <PrivateRoute>
           <Secret />
         </PrivateRoute>
+      }
+    ]
+  },
+  {
+    path: 'dashboard',
+    element: <Dashboard></Dashboard>,
+    children:[
+      {
+        path: 'cart',
+        element: <Cart></Cart>
       }
     ]
   },
