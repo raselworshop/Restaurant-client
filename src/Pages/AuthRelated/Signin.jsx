@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
+import SocialLogin from '../../Component/shared/SocialLogin';
 
 const Signin = () => {
     const captchaRef = useRef(null);
@@ -103,7 +104,8 @@ const Signin = () => {
                                 <input disabled={disabled} className="btn btn-primary" type="submit" value="Signin" />
                             </div>
                         </form>
-                        <p><small>New Here? <Link to="/signup">Create an account</Link> </small></p>
+                        <p className='px-8 py-3'><small>New Here? <Link to="/signup">Create an account</Link> </small></p>
+                        <SocialLogin/>
                     </div>
                 </div>
             </div>

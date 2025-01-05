@@ -3,11 +3,14 @@ import { useForm } from "react-hook-form";
 import { data, Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SocialLogin from "../../Component/shared/SocialLogin";
 
 const Signup = () => {
     const { createuser, updateUserProfile } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const axiosPublic = useAxiosPublic();
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
     const from = location.state?.from?.pathname || "/";
@@ -20,17 +23,29 @@ const Signup = () => {
                     const user = result.user;
                     console.log(user)
                     updateUserProfile(data.name, data.photoURL)
-                    if (user) {
-                        Swal.fire({
-                            position: "top-end",
-                            icon: "success",
-                            title: "user created successfully",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        navigate(from, {replace: true})
-                    }
-                    reset()
+                        .then(() => {
+                            // save user info to database 
+                            const userInfo = {
+                                name: data.name,
+                                email: data.email,
+                            }
+                            axiosPublic.post('/users', userInfo)
+                                .then(res => {
+                                    if (res.data.insertedId) {
+                                        console.log("user added to database", res.data.insertedId)
+                                        Swal.fire({
+                                            position: "top-end",
+                                            icon: "success",
+                                            title: "user created successfully",
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        });
+                                        navigate(from, { replace: true })
+                                    }
+                                    reset()
+                                })
+                        })
+
                 })
         } catch (error) {
             console.error(error);
@@ -94,7 +109,8 @@ const Signup = () => {
                                 <input className="btn btn-primary" type="submit" value="Sign Up" />
                             </div>
                         </form>
-                        <p><small>Already have an account <Link to="/login">Login</Link></small></p>
+                        <p className="px-8 py-3"><small>Already have an account <Link to="/login">Login</Link></small></p>
+                        <SocialLogin/>
                     </div>
                 </div>
             </div>
