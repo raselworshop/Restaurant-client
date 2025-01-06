@@ -13,6 +13,8 @@ import Cart from '../Pages/Dashboard/Cart/Cart';
 import AllUsers from '../Pages/Dashboard/AllUsers/AllUsers';
 import AddItem from '../Pages/Dashboard/AddItem/AddItem';
 import AdminRoute from './AdminRoute';
+import ManageItem from '../Pages/Dashboard/MangeItem/ManageItem';
+import UpdateItem from '../Pages/Dashboard/UpdateItem/UpdateItem';
 
 const route = createBrowserRouter([
   {
@@ -56,6 +58,28 @@ const route = createBrowserRouter([
           <AddItem></AddItem>
         </AdminRoute>
       },
+      {
+        path: 'manageItems',
+        element: <AdminRoute> <ManageItem /></AdminRoute>
+      },
+      {
+        path: 'updateItem/:id',
+        element: <AdminRoute><UpdateItem /></AdminRoute>,
+        loader: async ({ params }) => {
+          try {
+            const response = await fetch(`http://localhost:5000/menu/${params.id}`);
+            if (!response.ok) {
+              // throw new Error('Network response was not ok');
+            }
+            // const data = await response.json();
+            return response //data;
+          } catch (error) {
+            console.error('Error fetching data:', error);
+            throw error;
+          }
+        }
+      }
+      ,
       {
         path: 'manageUsers',
         element: <AdminRoute>
