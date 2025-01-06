@@ -11,6 +11,8 @@ import Secret from '../Component/common/Secret/Secret';
 import Dashboard from '../Layout/Dashboard';
 import Cart from '../Pages/Dashboard/Cart/Cart';
 import AllUsers from '../Pages/Dashboard/AllUsers/AllUsers';
+import AddItem from '../Pages/Dashboard/AddItem/AddItem';
+import AdminRoute from './AdminRoute';
 
 const route = createBrowserRouter([
   {
@@ -49,8 +51,16 @@ const route = createBrowserRouter([
       },
       // admin route 
       {
+        path: 'addItems',
+        element: <AdminRoute>
+          <AddItem></AddItem>
+        </AdminRoute>
+      },
+      {
         path: 'manageUsers',
-        element: <AllUsers></AllUsers>
+        element: <AdminRoute>
+          <AllUsers></AllUsers>
+        </AdminRoute>
       }
     ]
   },
