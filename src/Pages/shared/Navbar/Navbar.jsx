@@ -1,12 +1,14 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import { FaShoppingCart } from 'react-icons/fa';
 import useCart from '../../../hooks/useCart';
+import useAdmin from '../../../hooks/useAdmin';
 
 const Navbar = () => {
     const { user, userSignOut } = useAuth();
+    const [ isAdmin ] = useAdmin();
     const [cart] = useCart();
 
     const handleSignOUt = () => {
@@ -36,6 +38,10 @@ const Navbar = () => {
         <li><NavLink className={'btn btn-ghost'} to={'/menu'}>Menu</NavLink></li>
         <li><NavLink className={'btn btn-ghost'} to={'/secret'}>Secret</NavLink></li>
         <li><NavLink className={'btn btn-ghost'} to={`/order/${'salad'}`}>Order</NavLink></li>
+
+        {user && isAdmin && <li><NavLink className={'btn btn-ghost'} to={'/dashboard/adminHome'}>Dashboard</NavLink></li>}
+        {user && !isAdmin && <li><NavLink className={'btn btn-ghost'} to={'/dashboard/userHome'}>Dashboard</NavLink></li>}
+
         <li><NavLink to={'/dashboard/cart'}>
             <button className="btn">
                 <FaShoppingCart/>

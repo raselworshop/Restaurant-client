@@ -46,6 +46,7 @@ const AuthProvider = ({children}) => {
                   console.log('Token received: ', token);
                   if(token){
                     localStorage.setItem('jwt-token', token)
+                    setLoading(false)
                   }
                 } catch (error) {
                     console.error('Error fetching token: ', error);
@@ -53,8 +54,9 @@ const AuthProvider = ({children}) => {
             }else{
                 //remove token from client side(if set roken incookies or local)
                 localStorage.removeItem('jwt-token')
+                setLoading(false)
             }
-            setLoading(false)
+           
         })
         return ()=>{
             return unsubscribe()
