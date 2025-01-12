@@ -15,7 +15,7 @@ const AllUsers = () => {
         }
     })
     const handleMakeAdmin=(user)=>{
-        console.log(user._id)
+        // console.log(user._id)
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -28,7 +28,7 @@ const AllUsers = () => {
             if (result.isConfirmed) {
                 axiosSecure.patch(`/users/admin/${user._id}`)
                     .then(res => {
-                        console.log(res)
+                        // console.log(res)
                         if (res.data.modifiedCount > 0) {
                             refetch()
                             Swal.fire({
@@ -42,7 +42,7 @@ const AllUsers = () => {
         });
     }
     const handleDeleteUser = (id) => {
-        console.log(id)
+        // console.log(id)
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -55,7 +55,7 @@ const AllUsers = () => {
             if (result.isConfirmed) {
                 axiosSecure.delete(`/users/${id}`)
                     .then(res => {
-                        console.log(res)
+                        // console.log(res)
                         if (res.data.deletedCount > 0) {
                             refetch()
                             Swal.fire({

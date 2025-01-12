@@ -23,7 +23,7 @@ const Navbar = () => {
                 });
             })
             .catch(error => {
-                console.log("log out error", error)
+                // console.log("log out error", error)
                 Swal.fire({
                     position: "top-end",
                     icon: "error",

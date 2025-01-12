@@ -17,7 +17,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
 
 const PieCharts = ({ chartData }) => {
-    console.log(chartData)
+    // console.log(chartData)
     const data = chartData.map(item=>{
         return {name: item.category, value: item.revenue}
     })

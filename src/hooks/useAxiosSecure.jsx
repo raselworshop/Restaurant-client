@@ -4,7 +4,7 @@ import useAuth from "./useAuth";
 import { useEffect } from "react";
 
 const secureAxios = axios.create({
-  baseURL: `http://localhost:5000`,
+  baseURL: `https://bistro-restaurant-server-dusky.vercel.app`,
   // withCredentials: true,
 });
 
@@ -17,7 +17,7 @@ const useAxiosSecure = () => {
     secureAxios.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem("jwt-token");
-        console.log("Stopped all request here", token);
+        // console.log("Stopped all request here", token);
         config.headers.Authorization = `Bearer ${token}`;
         return config;
       },
@@ -37,7 +37,7 @@ const useAxiosSecure = () => {
           await userSignOut();
           navigate("/signin");
         }
-        console.log("interceptor err", status);
+        // console.log("interceptor err", status);
         return Promise.reject(err);
       }
     );

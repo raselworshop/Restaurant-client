@@ -13,15 +13,17 @@ const SocialLogin = () => {
     const handleGoogleSignin = () =>{
         gooleSignIn()
         .then(result=>{
-            console.log(result.user)
+            // console.log(result.user)
             const userInfo = {
                 name: result.user?.displayName,
                 email: result.user?.email
             }
             axiosPublic.post('/users', userInfo)
             .then(response=>{
-                console.log(response.data)
-                navigate('/')
+                // console.log(response.data)
+                if(response.data){
+                    navigate('/')
+                }
             })
         })
     }

@@ -33,7 +33,7 @@ const RecipeForm = () => {
       }}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
-        console.log("Form Data:", values); //ekhane data pacci
+        // console.log("Form Data:", values); //ekhane data pacci
 
         const formData = new FormData();
         formData.append("name", values.name);
@@ -66,7 +66,7 @@ const RecipeForm = () => {
               image: res.data.data.url,
             };
             const menuRes = await axiosSecure.post('/menu', menuItem)
-            console.log("menuREs", menuRes.data)
+            // console.log("menuREs", menuRes.data)
             if (menuRes.data.insertedId) {
               // show success msg 
               Swal.fire({
@@ -77,7 +77,14 @@ const RecipeForm = () => {
             }
           }
         } catch (error) {
-          console.error("Error uploading image:", error);
+          // console.error("Error uploading image:", error);
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: error.message,
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
 
         setTimeout(() => {
@@ -160,7 +167,7 @@ const RecipeForm = () => {
               onChange={(event) => {
                 // console.log(event.target.files[0]); 
                 const file = event.target.files[0];
-                console.log(file);
+                // console.log(file);
                 setFieldValue("image", file);
               }}
               className="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500"

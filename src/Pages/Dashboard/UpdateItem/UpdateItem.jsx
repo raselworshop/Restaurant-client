@@ -58,7 +58,7 @@ const UpdateItem = () => {
                     enableReinitialize={true}
                     validationSchema={validationSchema}
                     onSubmit={async (values, { setSubmitting, resetForm }) => {
-                        console.log("Form Data:", values);
+                        // console.log("Form Data:", values);
                         const formData = new FormData();
                         formData.append("name", values.name);
                         formData.append("category", values.category);
@@ -69,7 +69,7 @@ const UpdateItem = () => {
                             const res = await axiosPublic.post(imageHost, formData, {
                                 headers: { 'Content-Type': 'multipart/form-data' },
                             });
-                            console.log('Image uploaded successfully:', res.data);
+                            // console.log('Image uploaded successfully:', res.data);
                             if (res.data.success) {
                                 const menuItem = {
                                     name: values.name,
@@ -88,10 +88,17 @@ const UpdateItem = () => {
                                 }
                             }
                         } catch (error) {
-                            console.error("Error uploading image:", error);
+                            // console.error("Error uploading image:", error);
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "error",
+                                title: error.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                              });
                         }
                         setSubmitting(false);
-                        // resetForm();
+                        resetForm();
                     }}
                 >
                     {({ values, setFieldValue, isSubmitting }) => (

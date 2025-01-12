@@ -14,7 +14,7 @@ const Signin = () => {
     const { signinuser } = useAuth();
 
     const from = location.state?.from?.pathname || "/";
-    console.log('from login page state', location.state)
+    // console.log('from login page state', location.state)
 
     useEffect(() => {
         loadCaptchaEnginge(6);
@@ -25,12 +25,12 @@ const Signin = () => {
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.table(email, password)
+        // console.table(email, password)
         try {
             signinuser(email, password)
                 .then(result => {
                     const user = result.user;
-                    console.log(user)
+                    // console.log(user)
                     if (user) {
                         Swal.fire({
                             position: "top-end",
@@ -42,8 +42,18 @@ const Signin = () => {
                         navigate(from, {replace: true})
                     }
                 })
+                .catch(error=>{
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: `${error.message}`,
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+                })
         } catch (error) {
-            console.log("Login Filed, Please try again!", error)
+            // console.log("Login Filed, Please try again!", error)
+            // this toast is not working need to checkout 
             Swal.fire({
                 position: "top-end",
                 icon: "error",
@@ -60,9 +70,9 @@ const Signin = () => {
             setDisabled(false)
         } else {
             // need to do true
-            setDisabled(false)
+            setDisabled(true)
         }
-        console.log(captchhaValue)
+        // console.log(captchhaValue)
     }
 
     return (

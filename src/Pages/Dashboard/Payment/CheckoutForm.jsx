@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const CheckoutForm = () => {
     const [error, setError] = useState('')
     const [clientSecret, setClientSecret] = useState('')
-    const [transactionId, setTransactionId]= useState('')
+    const [transactionId, setTransactionId] = useState('')
     const stripe = useStripe();
     const elements = useElements();
     const axiosSecure = useAxiosSecure();
@@ -22,14 +22,21 @@ const CheckoutForm = () => {
         const postPay = async () => {
             try {
                 const res = await axiosSecure.post(`/create-checkout-session`, { price: totalPrice })
-                const data = await res.data
+                // const data = await res.data
                 setClientSecret(res.data.clientSecret)
-                console.log("Data from payment response:", data);
+                // console.log("Data from payment response:", data);
             } catch (error) {
-                console.error('An error occurred during payment:', error)
+                // console.error('An error occurred during payment:', error)
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: error.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
         }
-        if(totalPrice > 0.50){
+        if (totalPrice > 0.50) {
             postPay()
         }
     }, [axiosSecure, totalPrice])
@@ -46,47 +53,55 @@ const CheckoutForm = () => {
 
         const { error, paymentMethod } = await stripe.createPaymentMethod({ type: 'card', card })
         if (error) {
-            console.log("Payment error: ", error)
+            // console.log("Payment error: ", error)
             setError(error.message)
         } else {
-            console.log('pament method: ', paymentMethod)
+            // console.log('pament method: ', paymentMethod)
+
             setError('')
         }
 
         // confirm payment 
-        const { paymentIntent, error:confirmingErr } = await stripe.confirmCardPayment(clientSecret, {
-            payment_method:{
+        const { paymentIntent, error: confirmingErr } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
                 card: card,
-                billing_details:{
+                billing_details: {
                     name: user?.displayName || "Anonymous",
                     email: user?.email || "anonymous@mail.com"
                 }
             }
         })
-        if(confirmingErr){
-            console.error("Confirming error occured", confirmingErr)
-        }else{
-            console.log("Payment Intent success", paymentIntent)
-            if(paymentIntent.status === "succeeded"){
-                console.log("Transaction ID: ", paymentIntent.id)
+        if (confirmingErr) {
+            // console.error("Confirming error occured", confirmingErr)
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: confirmingErr.message,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else {
+            // console.log("Payment Intent success", paymentIntent)
+            if (paymentIntent.status === "succeeded") {
+                // console.log("Transaction ID: ", paymentIntent.id)
                 setTransactionId(paymentIntent.id)
                 // now save the payment in db 
-                const payment ={
+                const payment = {
                     email: user?.email,
                     price: totalPrice,
                     transactionId: paymentIntent.id,
                     date: new Date(), // utc date convert, use moment js to convert
-                    cartIds: cart.map(item=> item._id),
-                    menuItemIds: cart.map(item=> item.menuId),
+                    cartIds: cart.map(item => item._id),
+                    menuItemIds: cart.map(item => item.menuId),
                     status: "pending"
                 }
                 try {
                     const res = await axiosSecure.post('/payments', payment)
                     const data = res.data
-                    if(data?.paymentResult?.insertedId){
+                    if (data?.paymentResult?.insertedId) {
                         Swal.fire({
-                            position:"top-right",
-                            icon:"success",
+                            position: "top-right",
+                            icon: "success",
                             title: "Thanks for purchased successfully",
                             showConfirmButton: false,
                             timer: 1500,
@@ -94,9 +109,16 @@ const CheckoutForm = () => {
                         refetch();
                         navigate('/dashboard/paymentHistory')
                     }
-                    console.log("saved payment info: ", data)
+                    // console.log("saved payment info: ", data)
                 } catch (error) {
-                    console.error("Error saving payment info to db", error)
+                    // console.error("Error saving payment info to db", error)
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: error.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
             }
         }

@@ -8,7 +8,7 @@ const ChefRecommends = () => {
         fetch('/menu.json')
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 const offered = data.filter(item => item.category === 'offered')
                 setMenus(offered)
             })

@@ -89,14 +89,14 @@ const route = createBrowserRouter([
         element: <AdminRoute><UpdateItem /></AdminRoute>,
         loader: async ({ params }) => {
           try {
-            const response = await fetch(`http://localhost:5000/menu/${params.id}`);
+            const response = await fetch(`https://bistro-restaurant-server-dusky.vercel.app/menu/${params.id}`);
             if (!response.ok) {
               // throw new Error('Network response was not ok');
             }
             // const data = await response.json();
             return response //data;
           } catch (error) {
-            console.error('Error fetching data:', error);
+            // console.error('Error fetching data:', error);
             throw error;
           }
         }

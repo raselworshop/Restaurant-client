@@ -12,7 +12,7 @@ const ManageItem = () => {
     const axiosSecure = useAxiosSecure();
 
     const handleDelete = menu => {
-        console.log(menu._id)
+        // console.log(menu._id)
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -25,7 +25,7 @@ const ManageItem = () => {
             if (result.isConfirmed) {
                 await axiosSecure.delete(`/menu/${menu._id}`)
                     .then(res => {
-                        console.log(res)
+                        // console.log(res)
                         if (res.data.deletedCount > 0) {
                             refetch()
                             Swal.fire({
@@ -44,7 +44,7 @@ const ManageItem = () => {
         return <div>Data Loading...</div>
     }
     if (isError) {
-        console.error("Error fetching menus:", error);
+        // console.error("Error fetching menus:", error);
         return <p>Error fetching menus: {error.message}</p>;
     }
     

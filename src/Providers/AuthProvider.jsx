@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged,
 import { createContext, useEffect, useState } from "react";
 import auth from "../Firebase/firebase.config";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 export const AuthContext = createContext(null) 
 
@@ -36,20 +37,27 @@ const AuthProvider = ({children}) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth,async currentUser=>{
             setUser(currentUser);
-            console.log('user captured: ', currentUser)
+            // console.log('user captured: ', currentUser)
             if(currentUser){
                 //do something
                 const userInfo = { email: currentUser.email}
                 try {
                   const response = await axiosPublic.post('/jwt', userInfo)
                   const token = response.data.token
-                  console.log('Token received: ', token);
+                //   console.log('Token received: ', token);
                   if(token){
                     localStorage.setItem('jwt-token', token)
                     setLoading(false)
                   }
                 } catch (error) {
-                    console.error('Error fetching token: ', error);
+                    // console.error('Error fetching token: ', error);
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: error.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
                 }
             }else{
                 //remove token from client side(if set roken incookies or local)

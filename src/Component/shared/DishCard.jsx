@@ -37,7 +37,7 @@ const DishCard = ({ item }) => {
                 }
 
             } catch (error) {
-                console.log(error)
+                // console.log(error)
                 Swal.fire({
                     title: "Error!",
                     text: "There was an issue adding the item to the cart. Please try again.",
@@ -62,7 +62,7 @@ const DishCard = ({ item }) => {
                 }
             });
         }
-        console.log(user?.email)
+        // console.log(user?.email)
     }
     return (
         <div className="card bg-base-100 w-96 shadow-xl">

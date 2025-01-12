@@ -16,12 +16,12 @@ const Signup = () => {
     const from = location.state?.from?.pathname || "/";
 
     const onSubmit = data => {
-        console.log(data)
+        // console.log(data)
         try {
             createuser(data.email, data.password)
                 .then(result => {
                     const user = result.user;
-                    console.log(user)
+                    // console.log(user)
                     updateUserProfile(data.name, data.photoURL)
                         .then(() => {
                             // save user info to database 
@@ -32,7 +32,7 @@ const Signup = () => {
                             axiosPublic.post('/users', userInfo)
                                 .then(res => {
                                     if (res.data.insertedId) {
-                                        console.log("user added to database", res.data.insertedId)
+                                        // console.log("user added to database", res.data.insertedId)
                                         Swal.fire({
                                             position: "top-end",
                                             icon: "success",
@@ -48,7 +48,7 @@ const Signup = () => {
 
                 })
         } catch (error) {
-            console.error(error);
+            // console.error(error);
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
